@@ -1,0 +1,114 @@
+﻿@model MvcClimaTempo.Models.ClimaTempoViewModel
+
+@{ ViewData["Title"] = "Clima tempo simples"; }
+
+<h1>Clima tempo simples</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+
+            <div class="panel-heading">
+                <h3 class="panel-title">Cidades mais quentes hoje</h3>
+            </div>
+
+            <div class="panel-body" style="padding: unset !important;">
+                <table class="table" style="width: 100% !important; margin-bottom: unset !important;">
+                    <tbody>
+                        @foreach (var item in Model.ListaCidadeQuente)
+                        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cidade.Nome)/@Html.DisplayFor(modelItem => item.Cidade.Estado.UF)
+                </td>
+                <td>
+                    Min @Html.DisplayFor(modelItem => item.TemperaturaMinimaFormatado)°C
+                </td>
+                <td>
+                    Max @Html.DisplayFor(modelItem => item.TemperaturaMaximaFormatado)°C
+                </td>
+            </tr>}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+
+            <div class="panel-heading">
+                <h3 class="panel-title">Cidades mais frias hoje</h3>
+            </div>
+
+            <div class="panel-body" style="padding: unset !important;">
+                <table class="table" style="width: 100% !important; margin-bottom: unset !important;">
+                    <tbody>
+                        @foreach (var item in Model.ListaCidadeFria)
+                        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cidade.Nome)/@Html.DisplayFor(modelItem => item.Cidade.Estado.UF)
+                </td>
+                <td>
+                    Min @Html.DisplayFor(modelItem => item.TemperaturaMinimaFormatado)°C
+                </td>
+                <td>
+                    Max @Html.DisplayFor(modelItem => item.TemperaturaMaximaFormatado)°C
+                </td>
+            </tr>}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <div class="form-group">
+                <label class="control-label">Cidade</label><br />
+                @Html.DropDownList("f_cidade", Model.ListaCidade, new Dictionary<string, object> { { "class", "form-control" }, { "style", "width: 300px;" } })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="partialDetails"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#f_cidade").val("");
+        $("#f_cidade").select2({
+            language: "pt-BR",
+            placeholder: "* Selecione *",
+            allowClear: true
+        });
+
+        $("#f_cidade").on("change", function (evt) {
+
+            evt.preventDefault();
+            evt.stopPropagation();
+
+            var detailDiv = $("#partialDetails");
+            detailDiv.empty();
+
+            if ($(this).val() != undefined && $(this).val() != "" && $(this).val() != null) {
+                var url = '@Url.Action("Details", "ClimaTempo")' + "?idCidade=" + $(this).val();
+
+                $.get(url, function (data) {
+                    detailDiv.append(data);
+                });
+            }
+
+        });
+    });
+</script>

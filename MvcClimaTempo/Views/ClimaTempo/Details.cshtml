@@ -1,0 +1,22 @@
+﻿@model MvcClimaTempo.Models.ClimaTempoDetailsCidadeViewModel
+
+@{ ViewData["Title"] = "Details"; }
+
+<h3 class="text-center">Clima para os próximos sete dias na cidade de @Html.DisplayFor(model => model.CidadeFormatado)</h3>
+
+<div class="row">
+    @foreach (var item in Model.Detalhes)
+    {
+<div class="col-md-2 col-sm-3 col-xs-4" style="padding-right: 0px !important; max-width: 160px !important; ">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title text-center">@Html.DisplayFor(modelItem => item.DiaSemana)</h3>
+        </div>
+        <div class="panel-body">
+            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@Html.Raw(item.IconeClima) @Html.DisplayFor(modelItem => item.Clima)</div>
+            <div>@Html.DisplayFor(modelItem => item.TemperaturaMinimaFormatado)</div>
+            <div>@Html.DisplayFor(modelItem => item.TemperaturaMaximaFormatado)</div>
+        </div>
+    </div>
+</div>}
+</div>
