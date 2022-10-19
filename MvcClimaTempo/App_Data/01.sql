@@ -4,6 +4,9 @@ GO
 CREATE DATABASE ClimaTempoSimples
 GO
 
+USE ClimaTempoSimples
+GO
+
 --Estado
 CREATE TABLE Estado (
     Id   INT		   NOT NULL,
